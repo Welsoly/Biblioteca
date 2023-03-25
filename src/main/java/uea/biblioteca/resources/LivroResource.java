@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import uea.biblioteca.models.Livro;
 import uea.biblioteca.services.LivroService;
 
@@ -26,7 +27,7 @@ public class LivroResource {
 	private LivroService livroService;
 	
 	@PostMapping
-	public ResponseEntity<Livro> criar(@RequestBody Livro livro) {
+	public ResponseEntity<Livro> criar(@Valid @RequestBody Livro livro) {
 		Livro livroSalva = livroService.criar(livro);
 		
 		URI uri = ServletUriComponentsBuilder.
@@ -57,10 +58,13 @@ public class LivroResource {
 	
 	@PutMapping(value="/{id}")
 	public ResponseEntity<Livro> atualizar(@PathVariable Long id,
-			@RequestBody Livro livro){
+			@Valid @RequestBody Livro livro){
 		Livro livroSalva = livroService.atualizar(id,
 				livro);
 		return ResponseEntity.ok().body(livroSalva);
 		
 	}
+	
+	
+	
 }

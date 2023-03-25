@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import jakarta.validation.Valid;
 import uea.biblioteca.models.Emprestimo;
 import uea.biblioteca.services.EmprestimoService;
 
@@ -26,7 +27,7 @@ public class EmprestimoResource {
 	private EmprestimoService emprestimoService;
 	
 	@PostMapping
-	public ResponseEntity<Emprestimo> criar(@RequestBody Emprestimo emprestimo) {
+	public ResponseEntity<Emprestimo> criar(@Valid @RequestBody Emprestimo emprestimo) {
 		Emprestimo emprestimoSalva = emprestimoService.criar(emprestimo);
 		
 		URI uri = ServletUriComponentsBuilder.
@@ -57,7 +58,7 @@ public class EmprestimoResource {
 	
 	@PutMapping(value="/{id}")
 	public ResponseEntity<Emprestimo> atualizar(@PathVariable Long id,
-			@RequestBody Emprestimo emprestimo){
+			@Valid @RequestBody Emprestimo emprestimo){
 		Emprestimo emprestimoSalva = emprestimoService.atualizar(id,
 				emprestimo);
 		return ResponseEntity.ok().body(emprestimoSalva);

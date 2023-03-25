@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import uea.biblioteca.models.Usuario;
 import uea.biblioteca.services.UsuarioService;
 
@@ -26,7 +27,7 @@ public class UsuarioResource {
 	private UsuarioService usuarioService;
 	
 	@PostMapping
-	public ResponseEntity<Usuario> criar(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> criar(@Valid @RequestBody Usuario usuario) {
 		Usuario usuarioSalva = usuarioService.criar(usuario);
 		
 		URI uri = ServletUriComponentsBuilder.
@@ -57,7 +58,7 @@ public class UsuarioResource {
 	
 	@PutMapping(value="/{id}")
 	public ResponseEntity<Usuario> atualizar(@PathVariable Long id,
-			@RequestBody Usuario usuario){
+			@Valid @RequestBody Usuario usuario){
 		Usuario usuarioSalva = usuarioService.atualizar(id,
 				usuario);
 		return ResponseEntity.ok().body(usuarioSalva);

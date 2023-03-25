@@ -1,12 +1,21 @@
 package uea.biblioteca.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Usuario implements Serializable {
@@ -15,22 +24,36 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank(message = "Nome é obrigatório")
+	@Size(min=3, max=20, message = "Nome deve ter"
+			+ " tamanho entre 3 e 20")
 	private String nome;
+	@NotBlank(message = "Email é obrigatório")
 	private String email;
+	@NotBlank(message = "Nome de Usuario é obrigatório")
+	@Size(min=3, max=20, message = "Nome de Usuario deve ter"
+			+ " tamnho entre 3 e 20")
 	private String username;
+	@NotNull(message = "Senha é obrigatório")
 	private String senha;
+
+	@Valid
+	@JsonIgnoreProperties(value = { "usuario" })
+	@OneToMany(mappedBy = "usuario")
+	private Set<Emprestimo> emprestimos = new HashSet<Emprestimo>();
 
 	public Usuario() {
 		super();
 	}
 
-	public Usuario(Long id, String nome, String email, String username, String senha) {
+	public Usuario(Long id, String nome, String email, String username, String senha, Set<Emprestimo> emprestimos) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.username = username;
 		this.senha = senha;
+		this.emprestimos = emprestimos;
 	}
 
 	public Long getId() {
@@ -71,6 +94,14 @@ public class Usuario implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Set<Emprestimo> getEmprestimos() {
+		return emprestimos;
+	}
+
+	public void setEmprestimos(Set<Emprestimo> emprestimos) {
+		this.emprestimos = emprestimos;
 	}
 
 	@Override
