@@ -39,7 +39,7 @@ public class BibliotecaApplication implements CommandLineRunner{
 	DateTimeFormatter fdt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	
 	private void CadastrarUsuario() {
-		Usuario at1 = new Usuario(null,"Welliton","welliton@gmai.com","ton","321452", null);
+		Usuario at1 = new Usuario(null,"Welliton","welliton@gmai.com","321452", null);
 		usuarioRepository.save(at1);	
 	}
 	private void CadastrarLivro() {

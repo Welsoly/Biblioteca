@@ -25,15 +25,10 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotBlank(message = "Nome é obrigatório")
-	@Size(min=3, max=20, message = "Nome deve ter"
-			+ " tamanho entre 3 e 20")
+	@Size(min = 3, max = 20, message = "Nome deve ter" + " tamanho entre 3 e 20")
 	private String nome;
 	@NotBlank(message = "Email é obrigatório")
 	private String email;
-	@NotBlank(message = "Nome de Usuario é obrigatório")
-	@Size(min=3, max=20, message = "Nome de Usuario deve ter"
-			+ " tamnho entre 3 e 20")
-	private String username;
 	@NotNull(message = "Senha é obrigatório")
 	private String senha;
 
@@ -46,12 +41,11 @@ public class Usuario implements Serializable {
 		super();
 	}
 
-	public Usuario(Long id, String nome, String email, String username, String senha, Set<Emprestimo> emprestimos) {
+	public Usuario(Long id, String nome, String email, String senha, Set<Emprestimo> emprestimos) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		this.username = username;
 		this.senha = senha;
 		this.emprestimos = emprestimos;
 	}
@@ -78,14 +72,6 @@ public class Usuario implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getSenha() {
