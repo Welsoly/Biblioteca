@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
+import uea.biblioteca.dto.ResumoEmprestimoDto;
+import uea.biblioteca.filters.EmprestimoFilter;
 import uea.biblioteca.models.Emprestimo;
 import uea.biblioteca.services.EmprestimoService;
 
@@ -38,9 +40,9 @@ public class EmprestimoResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Emprestimo>> listar() {
-		List<Emprestimo> emprestimos = emprestimoService.listar();
-		return ResponseEntity.ok().body(emprestimos);
+	public ResponseEntity<List<ResumoEmprestimoDto>> resumir(EmprestimoFilter emprestimoFilter) {
+		List<ResumoEmprestimoDto> resumos = emprestimoService.resumir(emprestimoFilter);
+		return ResponseEntity.ok().body(resumos);
 	}
 	
 	@GetMapping(value = "/{id}")

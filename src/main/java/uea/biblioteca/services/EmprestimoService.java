@@ -6,6 +6,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import uea.biblioteca.dto.ResumoEmprestimoDto;
+import uea.biblioteca.filters.EmprestimoFilter;
 import uea.biblioteca.models.Emprestimo;
 import uea.biblioteca.repositories.EmprestimoRepository;
 
@@ -15,6 +17,9 @@ public class EmprestimoService {
 	@Autowired
 	private EmprestimoRepository emprestimoRepository;
 	
+	public List<ResumoEmprestimoDto> resumir(EmprestimoFilter emprestimoFilter){
+		return emprestimoRepository.filtrar(emprestimoFilter);
+	}
 	public Emprestimo criar(Emprestimo emprestimo) {
 		return emprestimoRepository.save(emprestimo);
 	}

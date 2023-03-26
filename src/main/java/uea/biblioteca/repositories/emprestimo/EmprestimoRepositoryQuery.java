@@ -6,7 +6,7 @@ import uea.biblioteca.dto.ResumoEmprestimoDto;
 import uea.biblioteca.filters.EmprestimoFilter;
 
 public interface EmprestimoRepositoryQuery {
-	public List<ResumoEmprestimoDto> filtrar(
-			EmprestimoFilter emprestimoFilter);
+	
+	public List<ResumoEmprestimoDto> filtrar(EmprestimoFilter emprestimoFilter);
 
 }
