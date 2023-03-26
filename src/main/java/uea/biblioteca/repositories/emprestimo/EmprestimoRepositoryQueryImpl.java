@@ -3,8 +3,13 @@ package uea.biblioteca.repositories.emprestimo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -19,7 +24,7 @@ public class EmprestimoRepositoryQueryImpl implements EmprestimoRepositoryQuery 
 	private EntityManager manager;
 
 	@Override
-	public List<ResumoEmprestimoDto> filtrar(EmprestimoFilter emprestimoFilter) {
+	public Page<ResumoEmprestimoDto> filtrar(EmprestimoFilter emprestimoFilter, Pageable pageable) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 
 		CriteriaQuery<ResumoEmprestimoDto> criteria = builder.createQuery(ResumoEmprestimoDto.class);
@@ -34,9 +39,34 @@ public class EmprestimoRepositoryQueryImpl implements EmprestimoRepositoryQuery 
 			criteria.where(predicates);
 		}
 
-		List<ResumoEmprestimoDto> returnList = manager.createQuery(criteria).getResultList();
+		TypedQuery<ResumoEmprestimoDto> query = manager.createQuery(criteria);
 
-		return returnList;
+		adicionarRestricoesDePaginacao(query, pageable);
+
+		return new PageImpl<>(query.getResultList(), pageable, total(emprestimoFilter));
+	}
+
+	private Long total(EmprestimoFilter emprestimoFilter) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+		Root<Emprestimo> root = criteria.from(Emprestimo.class);
+
+		Predicate[] predicates = criarRestricoes(emprestimoFilter, builder, root);
+		if (predicates.length > 0) {
+			criteria.where(predicates);
+		}
+
+		criteria.select(builder.count(root));
+		return manager.createQuery(criteria).getSingleResult();
+	}
+
+	private void adicionarRestricoesDePaginacao(TypedQuery<ResumoEmprestimoDto> query, Pageable pageable) {
+		int paginaAtual = pageable.getPageNumber();
+		int totalDeRegistroPorPagina = pageable.getPageSize();
+		int primeiroRegistroDaPagina = paginaAtual * totalDeRegistroPorPagina;
+
+		query.setFirstResult(primeiroRegistroDaPagina);
+		query.setMaxResults(totalDeRegistroPorPagina);
 	}
 
 	private Predicate[] criarRestricoes(EmprestimoFilter emprestimoFilter, CriteriaBuilder builder,

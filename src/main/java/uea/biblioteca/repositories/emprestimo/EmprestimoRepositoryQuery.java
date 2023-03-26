@@ -1,12 +1,13 @@
 package uea.biblioteca.repositories.emprestimo;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import uea.biblioteca.dto.ResumoEmprestimoDto;
 import uea.biblioteca.filters.EmprestimoFilter;
 
 public interface EmprestimoRepositoryQuery {
 	
-	public List<ResumoEmprestimoDto> filtrar(EmprestimoFilter emprestimoFilter);
+	public Page<ResumoEmprestimoDto> filtrar(EmprestimoFilter emprestimoFilter, Pageable pageable);
 
 }

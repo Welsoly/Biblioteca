@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import uea.biblioteca.dto.ResumoEmprestimoDto;
@@ -17,8 +19,9 @@ public class EmprestimoService {
 	@Autowired
 	private EmprestimoRepository emprestimoRepository;
 	
-	public List<ResumoEmprestimoDto> resumir(EmprestimoFilter emprestimoFilter){
-		return emprestimoRepository.filtrar(emprestimoFilter);
+	public Page<ResumoEmprestimoDto> resumir(EmprestimoFilter emprestimoFilter,
+			Pageable pageable){
+		return emprestimoRepository.filtrar(emprestimoFilter, pageable);
 	}
 	public Emprestimo criar(Emprestimo emprestimo) {
 		return emprestimoRepository.save(emprestimo);
