@@ -4,13 +4,11 @@ import java.time.LocalDate;
 
 import uea.biblioteca.models.Livro;
 import uea.biblioteca.models.Pessoa;
-import uea.biblioteca.models.Usuario;
 
 public class ResumoEmprestimoDto {
 	private Long id;
 	private LocalDate dataEmprestimo;
 	private LocalDate dataDevolucao;
-	private Usuario usuario;
 	private Livro livro;
 	private Pessoa pessoa;
 
@@ -18,13 +16,11 @@ public class ResumoEmprestimoDto {
 		super();
 	}
 
-	public ResumoEmprestimoDto(Long id, LocalDate dataEmprestimo, LocalDate dataDevolucao, Usuario usuario, Livro livro,
-			Pessoa pessoa) {
+	public ResumoEmprestimoDto(Long id, LocalDate dataEmprestimo, LocalDate dataDevolucao, Livro livro, Pessoa pessoa) {
 		super();
 		this.id = id;
 		this.dataEmprestimo = dataEmprestimo;
 		this.dataDevolucao = dataDevolucao;
-		this.usuario = usuario;
 		this.livro = livro;
 		this.pessoa = pessoa;
 	}
@@ -51,14 +47,6 @@ public class ResumoEmprestimoDto {
 
 	public void setDataDevolucao(LocalDate dataDevolucao) {
 		this.dataDevolucao = dataDevolucao;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 	public Livro getLivro() {

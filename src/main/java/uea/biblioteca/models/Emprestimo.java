@@ -22,8 +22,8 @@ public class Emprestimo implements Serializable {
 	private LocalDate dataDevolucao;
 
 	@ManyToOne
-	@JoinColumn(name = "id_usuario")
-	private Usuario usuario;
+	@JoinColumn(name = "id_pessoa")
+	private Pessoa pessoa;
 
 	@ManyToOne
 	@JoinColumn(name = "id_livro")
@@ -33,13 +33,13 @@ public class Emprestimo implements Serializable {
 		super();
 	}
 
-	public Emprestimo(Long id, LocalDate dataEmprestimo, LocalDate dataDevolucao, Livro livro, Usuario usuario) {
+	public Emprestimo(Long id, LocalDate dataEmprestimo, LocalDate dataDevolucao, Livro livro, Pessoa pessoa) {
 		super();
 		this.id = id;
 		this.dataEmprestimo = dataEmprestimo;
 		this.dataDevolucao = dataDevolucao;
 		this.livro = livro;
-		this.usuario = usuario;
+		this.pessoa = pessoa;
 	}
 
 	public Long getId() {
@@ -74,12 +74,12 @@ public class Emprestimo implements Serializable {
 		this.livro = livro;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	@Override

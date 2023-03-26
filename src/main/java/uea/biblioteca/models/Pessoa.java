@@ -18,19 +18,18 @@ public class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotBlank(message = "Nome é obrigatório")
-	@Size(min=3, max=20, message = "Nome deve ter"
-			+ " tamanho entre 3 e 20")
+	@Size(min = 3, max = 20, message = "Nome deve ter" + " tamanho entre 3 e 20")
 	private String nome;
 	@NotBlank(message = "ativo é obrigatório")
 	private Boolean ativo;
-	
+
 	public Pessoa() {
 		super();
 	}
 
 	public Pessoa(Long id,
-			@NotBlank(message = "Nome é obrigatório") @Size(min = 3, max = 20, message = "Nome deve ter tamanho entre 3 e 20") String nome,
-			@NotBlank(message = "ativo é obrigatório") Boolean ativo) {
+		@NotBlank(message = "Nome é obrigatório") @Size(min = 3, max = 20, message = "Nome deve ter tamanho entre 3 e 20") String nome,
+		@NotBlank(message = "ativo é obrigatório") Boolean ativo) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -60,6 +59,7 @@ public class Pessoa implements Serializable {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
+
 	public Boolean isAtivo() {
 		return this.ativo;
 	}
@@ -80,8 +80,5 @@ public class Pessoa implements Serializable {
 		Pessoa other = (Pessoa) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-}
 
+}

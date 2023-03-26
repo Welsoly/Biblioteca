@@ -32,7 +32,7 @@ public class EmprestimoRepositoryQueryImpl implements EmprestimoRepositoryQuery 
 		// USUARIO VAI SE TORNA PESSOA FUTURAMENTE
 		criteria.select(builder.construct(ResumoEmprestimoDto.class, root.get("codigo"), root.get("descricao"),
 				root.get("dataEmprestimo"), root.get("dataPagamento"), root.get("livro").get("titulo"),
-				root.get("usuario").get("nome")));
+				root.get("pessoa").get("nome")));
 
 		Predicate[] predicates = criarRestricoes(emprestimoFilter, builder, root);
 		if (predicates.length > 0) {
