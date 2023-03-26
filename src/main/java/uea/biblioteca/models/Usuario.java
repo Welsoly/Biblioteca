@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,10 +33,11 @@ public class Usuario implements Serializable {
 	@NotBlank(message = "Email é obrigatório")
 	private String email;
 	@NotNull(message = "Senha é obrigatório")
+	@JsonProperty(access= Access.WRITE_ONLY)
 	private String senha;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_permissao"))
+	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_permissao"))
 	private Set<Permissao> permissoes = new HashSet<>();
 
 	public Usuario() {
