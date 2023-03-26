@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class EmprestimoResource {
 	private EmprestimoService emprestimoService;
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_EMPRESTIMO') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Emprestimo> criar(@Valid @RequestBody Emprestimo emprestimo) {
 		Emprestimo emprestimoSalva = emprestimoService.criar(emprestimo);
 		
@@ -41,6 +43,7 @@ public class EmprestimoResource {
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESTIMO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Page<ResumoEmprestimoDto>> resumir(EmprestimoFilter emprestimoFilter,
 			Pageable pageable) {
 		Page<ResumoEmprestimoDto> resumos = emprestimoService.resumir(emprestimoFilter, pageable);
@@ -48,6 +51,7 @@ public class EmprestimoResource {
 	}
 	
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESTIMO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Emprestimo> buscarPorId(@PathVariable 
 			Long id){
 		Emprestimo emprestimo = emprestimoService.buscarPorId(id);
@@ -55,12 +59,14 @@ public class EmprestimoResource {
 	}
 	
 	@DeleteMapping(value="/{id}")
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_EMPRESTIMO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Void> excluir(@PathVariable Long id){
 		emprestimoService.excluir(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value="/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ATUALIZAR_EMPRESTIMO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Emprestimo> atualizar(@PathVariable Long id,
 			@Valid @RequestBody Emprestimo emprestimo){
 		Emprestimo emprestimoSalva = emprestimoService.atualizar(id,

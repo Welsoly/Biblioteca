@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class LivroResource {
 	private LivroService livroService;
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LIVRO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Livro> criar(@Valid @RequestBody Livro livro) {
 		Livro livroSalva = livroService.criar(livro);
 		
@@ -38,12 +40,14 @@ public class LivroResource {
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LIVRO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<List<Livro>> listar() {
 		List<Livro> livros = livroService.listar();
 		return ResponseEntity.ok().body(livros);
 	}
 	
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LIVRO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Livro> buscarPorId(@PathVariable 
 			Long id){
 		Livro livro = livroService.buscarPorId(id);
@@ -51,12 +55,14 @@ public class LivroResource {
 	}
 	
 	@DeleteMapping(value="/{id}")
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LIVRO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Void> excluir(@PathVariable Long id){
 		livroService.excluir(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value="/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ATUALIZAR_LIVRO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Livro> atualizar(@PathVariable Long id,
 			@Valid @RequestBody Livro livro){
 		Livro livroSalva = livroService.atualizar(id,

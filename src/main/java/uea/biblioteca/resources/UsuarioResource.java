@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class UsuarioResource {
 	private UsuarioService usuarioService;
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_USUARIO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Usuario> criar(@Valid @RequestBody Usuario usuario) {
 		Usuario usuarioSalva = usuarioService.criar(usuario);
 		
@@ -38,12 +40,14 @@ public class UsuarioResource {
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_USUARIO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<List<Usuario>> listar() {
 		List<Usuario> usuarios = usuarioService.listar();
 		return ResponseEntity.ok().body(usuarios);
 	}
 	
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_USUARIO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Usuario> buscarPorId(@PathVariable 
 			Long id){
 		Usuario usuario = usuarioService.buscarPorId(id);
@@ -51,12 +55,14 @@ public class UsuarioResource {
 	}
 	
 	@DeleteMapping(value="/{id}")
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_USUARIO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Void> excluir(@PathVariable Long id){
 		usuarioService.excluir(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value="/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ATUALIZAR_USUARIO') and hasAuthority('SCOPE_read')" )
 	public ResponseEntity<Usuario> atualizar(@PathVariable Long id,
 			@Valid @RequestBody Usuario usuario){
 		Usuario usuarioSalva = usuarioService.atualizar(id,
